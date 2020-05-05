@@ -1,6 +1,6 @@
 {
   "name": "@tchvan/node-mysql",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utility to connect and query on distributed mysql grid.",
   "main": "index.js",
   "scripts": {
