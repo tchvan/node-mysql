@@ -1,0 +1,26 @@
+{
+  "name": "@tchvan/node-mysql",
+  "version": "1.0.0",
+  "description": "Utility to connect and query on distributed mysql grid.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tchvan/node-mysql.git"
+  },
+  "author": "Fortune Truong <tchvan@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tchvan/node-mysql/issues"
+  },
+  "homepage": "https://github.com/tchvan/node-mysql#readme",
+  "engines": {
+    "node": ">=4.2.4"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.2"
+  }
+}
