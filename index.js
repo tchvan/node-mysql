@@ -1,11 +1,14 @@
-'use strict';
+'use strict'
 
-/**
- * Adds commas to a number
- * @param {number} number
- * @param {string} locale
- * @return {string}
- */
-module.exports = function(number, locale) {
-    return number.toLocaleString(locale);
-};
+const UUID = require('./components/UUID')
+const Connector = require('./components/Connector')
+const Schema = require('./components/Schema')
+const BluePrint = require('./components/BluePrint')
+
+module.exports = {
+    UUID,
+    Connector,
+    Schema,
+    BluePrint,
+}
+
