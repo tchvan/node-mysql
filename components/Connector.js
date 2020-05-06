@@ -1,18 +1,8 @@
 'use strict'
 const mysql = require('mysql')
 const Util = require('./UtilString')
-// const EventEmitter = require('events')
-// class MyEventEmitter extends EventEmitter {}
-
-// const myEmitter = new MyEventEmitter()
-// myEmitter.on('eee', () => {
-//     console.log("Good job")
-// })
-
-// myEmitter.emit("eee")
 
 class Connector {
-
     connect(db_name) {
         this._connect.connect((err) => {
             if (err) {

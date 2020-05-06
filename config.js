@@ -1,6 +1,6 @@
 'use strict'
 const Config = {
-    MAX_SHARD: 8, // Production: 4096
+    MAX_SHARD: 2, // Production: 4096
     DB_PREFIX: "zdb",
 }
 

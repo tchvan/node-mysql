@@ -1,19 +1,41 @@
 'use strict'
 
 class BluePrint {
-    toString(table_name, connector) {
+    createEntity(table_name, conn) {
         // console.log(connector.config)
-        const { database } = connector.config
+        const { database } = conn.config
         const s0 = "CREATE TABLE IF NOT EXISTS `" + database + "`.`" + table_name + "` "
         const si = [
-            "`id` BIGINT NOT NULL AUTO_INCREMENT",
+            "`id` INT NOT NULL AUTO_INCREMENT",
             "`json` JSON",
             "`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
             "`modified` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
             "PRIMARY KEY (`id`)"
         ]
         const sn = "ENGINE = InnoDB;"
-        return s0 + "(\n\t" + si.join(",\n\t") + "\n) " + sn
+        const sql = s0 + "(\n\t" + si.join(",\n\t") + "\n) " + sn
+        // console.log(sql)
+        return sql
+    }
+
+    createRelationShip(table_name, entity0, entity1, conn) {
+        const { database } = conn.config
+        const e0 = entity0 + "_uuid"
+        const e1 = entity1 + "_uuid"
+
+        const s0 = "CREATE TABLE IF NOT EXISTS `" + database + "`.`" + table_name + "`"
+        const si = [
+            "`" + e0 + "` BIGINT NOT NULL",
+            "`" + e1 + "` BIGINT NOT NULL",
+            "`key` VARCHAR(255) NOT NULL",
+            "`value` LONGTEXT",
+            "`modified` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
+            "INDEX(`" + e0 + "`, `" + e1 + "`, `key`)"
+        ]
+        const sn = "ENGINE = InnoDB;"
+        const sql = s0 + "(\n\t" + si.join(",\n\t") + "\n) " + sn
+        // console.log(sql)
+        return sql
     }
 }
 
