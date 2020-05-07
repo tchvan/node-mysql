@@ -89,7 +89,7 @@ class Schema extends DbInteraction {
         const blue_print = new BluePrint
         entity0 = entity0 || table0.substr(0, table0.length - 1)
         entity1 = entity1 || table1.substr(0, table1.length - 1)
-        const table_name = "meta_" + entity0 + "_" + entity1
+        const table_name = Util.getLinkName(entity0, entity1)
         const sql = blue_print.createRelationShip(table_name, entity0, entity1, this.conn)
         this.conn.query(sql, (err, result) => {
             if (err) throw err

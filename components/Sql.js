@@ -1,10 +1,7 @@
 'use strict'
 
 const JSON_COMPACT = (json) => {
-    if(typeof json === "object"){
-        json = JSON.stringify(json)
-        // console.log("Convert object to string")
-    }
+    if (typeof json === "object") json = JSON.stringify(json)
     return "JSON_COMPACT('" + json + "')"
 }
 
@@ -13,6 +10,32 @@ const DB_CREATE = (db_name) => "CREATE DATABASE IF NOT EXISTS " + db_name;
 // const DB_EXISTS = (db_name) => "SHOW DATABASES LIKE '" + db_name + "'"
 // const DB_USE = (db_name) => "USE '" + db_name + "'"
 
+const MD_SELECT_BY_ID = (db_name, tb_name, id) => {
+    const table = db_name + '.' + tb_name
+    const si = ["SELECT * FROM " + table + " WHERE id=" + id]
+    const sql = si.join("\n")
+    return sql
+}
+
+const MD_SELECT_BY_NAME = (db_name, tb_name, name) => {
+    const table = db_name + '.' + tb_name
+    const si = ["SELECT * FROM " + table + " WHERE name='" + name + "'"]
+    const sql = si.join("\n")
+    return sql
+}
+
+const MD_META = (db_name, tb_name, e0, e1, key) => {
+    const table = db_name + '.' + tb_name
+    const si = [
+        "SELECT * FROM " + table + " WHERE ",
+        e0.k + "=" + e0.v + " AND ",
+        e1.k + "=" + e1.v + " AND ",
+        "`key` LIKE '" + key + "'"
+    ]
+    const sql = si.join("\n")
+    return sql
+}
+
 /**
  * 
  * @param {String} db_name 
@@ -20,11 +43,11 @@ const DB_CREATE = (db_name) => "CREATE DATABASE IF NOT EXISTS " + db_name;
  * @param {String} json 
  * @returns {String}
  */
-const MD_INSERT = (db_name, tb_name, json) => {
+const MD_INSERT = (db_name, tb_name, json, unique_name) => {
     const table = db_name + '.' + tb_name
     json = JSON_COMPACT(json)
     const si = [
-        "INSERT INTO " + table + "(`json`) VALUES (" + json + ")"
+        "INSERT INTO " + table + "(`name`, `json`) VALUES ('" + unique_name + "', " + json + ")"
     ]
     const sql = si.join(",\n\t")
     // console.log(sql)
@@ -60,6 +83,9 @@ module.exports = {
     // DB_EXISTS,
     // DB_USE,
 
+    MD_SELECT_BY_ID,
+    MD_SELECT_BY_NAME,
+    MD_META,
     MD_INSERT,
     MD_UPDATE,
 }

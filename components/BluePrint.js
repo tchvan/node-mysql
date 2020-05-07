@@ -14,10 +14,12 @@ class BluePrint {
         const s0 = "CREATE TABLE IF NOT EXISTS `" + database + "`.`" + table_name + "` "
         const si = [
             "`id` INT NOT NULL AUTO_INCREMENT",
+            "`name` varchar(255) NOT NULL",
             "`json` JSON",
             "`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
             "`modified` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
-            "PRIMARY KEY (`id`)"
+            "PRIMARY KEY (`id`)",
+            "UNIQUE `unique_name` (`name`)"
         ]
         const sn = "ENGINE = InnoDB;"
         const sql = s0 + "(\n\t" + si.join(",\n\t") + "\n) " + sn
@@ -41,8 +43,8 @@ class BluePrint {
         const s0 = "CREATE TABLE IF NOT EXISTS `" + database + "`.`" + table_name + "`"
         const si = [
             "`" + e0 + "` BIGINT NOT NULL",
-            "`" + e1 + "` BIGINT NOT NULL",
             "`key` VARCHAR(255) NOT NULL",
+            "`" + e1 + "` BIGINT NOT NULL",
             "`value` LONGTEXT",
             "`modified` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
             "INDEX(`" + e0 + "`, `" + e1 + "`, `key`)"
