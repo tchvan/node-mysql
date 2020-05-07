@@ -3,6 +3,11 @@ const mysql = require('mysql')
 const Util = require('./UtilString')
 
 class Connector {
+
+    /**
+     * 
+     * @param {String} db_name 
+     */
     connect(db_name) {
         this._connect.connect((err) => {
             if (err) {
@@ -19,6 +24,11 @@ class Connector {
         })
     }
 
+    /**
+     *
+     * @param {Object} config 
+     * @param {Int} shardId 
+     */
     constructor(config, shardId = null) {
         if (config) {
             if (shardId) {

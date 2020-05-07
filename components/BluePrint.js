@@ -1,6 +1,13 @@
 'use strict'
+const Connector = require('./Connector')
 
 class BluePrint {
+
+    /**
+     * 
+     * @param {String} table_name 
+     * @param {Connector} conn 
+     */
     createEntity(table_name, conn) {
         // console.log(connector.config)
         const { database } = conn.config
@@ -18,6 +25,14 @@ class BluePrint {
         return sql
     }
 
+
+    /**
+     * 
+     * @param {String} table_name 
+     * @param {String} entity0 
+     * @param {String} entity1 
+     * @param {Connector} conn 
+     */
     createRelationShip(table_name, entity0, entity1, conn) {
         const { database } = conn.config
         const e0 = entity0 + "_uuid"

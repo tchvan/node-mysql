@@ -1,38 +1,50 @@
 'use strict';
+
+const DbInteraction = require('./DbInteraction')
 const Config = require('../config')
 const Sql = require('./Sql')
 const BluePrint = require('./BluePrint')
 const Connector = require('./Connector')
 const Util = require('./UtilString')
 
-class Schema {
+class Schema extends DbInteraction {
 
     /**
-    * @param {Connector} connector
-    */
-    static connect(connector) {
-        this.conn = connector
-        return Schema
-    }
-
+     * 
+     * @param {Object} config 
+     * @param {String} db_name 
+     * @param {Array} models 
+     */
     static createModels(config, db_name, models) {
         // console.log("Create Model tables for db " + db_name)
         const conn = new Connector({ ...config, database: db_name })
         const db = this.connect(conn)
 
         models.map(entity => db.create(entity)) //<< this.create('posts').create('terms').create('users').create('comments')
-        return Schema
+        return this
     }
 
+    /**
+     * 
+     * @param {Object} config 
+     * @param {String} db_name 
+     * @param {Array} links 
+     */
     static createRelationships(config, db_name, links) {
         // console.log("Create Relationship tables for db " + db_name)
         const conn = new Connector({ ...config, database: db_name })
         const db = this.connect(conn)
 
         links.map(entity => db.link(entity[0], entity[1])) //<< this.link('posts', 'terms').link('posts', 'users')
-        return Schema
+        return this
     }
 
+    /**
+     * 
+     * @param {Object} config 
+     * @param {Array} models 
+     * @param {Array} links 
+     */
     static install(config, models, links) {
         const max = Config.MAX_SHARD
         const dbs = [...Array(max).keys()].map(k => Util.getDbName(k))
@@ -49,8 +61,13 @@ class Schema {
             })
         })
         // console.log(dbs)
+        return this
     }
 
+    /**
+     * 
+     * @param {String} table_name 
+     */
     static create(table_name) {
         const blue_print = new BluePrint
         const sql = blue_print.createEntity(table_name, this.conn)
@@ -58,7 +75,7 @@ class Schema {
             if (err) throw err
             // if (result) console.log(result)
         })
-        return Schema
+        return this
     }
 
     /**
@@ -78,7 +95,7 @@ class Schema {
             if (err) throw err
             // if (result) console.log(result)
         })
-        return Schema
+        return this
     }
 }
 

@@ -10,7 +10,12 @@ class UUID {
     getTypeId() { return (this.id >> 36n) & 0x3FFn }
     getLocalId() { return this.id & 0xFFFFFFFFFn }
 
-    // get() { return this.id }
+    /**
+     * 
+     * @param {BigInt} shardId 
+     * @param {BigInt} typeId 
+     * @param {BigInt} localId 
+     */
     static get(shardId, typeId, localId) { return (BigInt(shardId) << 46n) | (BigInt(typeId) << 36n) | BigInt(localId) }
     toString() { return "Shard[" + this.getShardId() + "] - Type[" + this.getTypeId() + "] - Local[" + this.getLocalId() + "]" }
 }
