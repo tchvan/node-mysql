@@ -11,11 +11,6 @@ class UUID {
         this.localId = this.id & 0xFFFFFFFFFn
     }
 
-    // // getShardId() { return (this.id >> 46n) & 4095n }
-    // getShardId() { return  }
-    // getTypeId() { return  }
-    // getLocalId() { return  }
-
     /**
      * 
      * @param {BigInt} shardId 

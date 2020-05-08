@@ -18,24 +18,22 @@ class DB extends DbInteraction {
     }
 
     insert(shard_id, unique_name, json, type) {
-        const callBack = (result, shard_id, type_id) => {
+        unique_name = unique_name || this.createNewUniqueName(type)
+        const result = this.baseFunction(shard_id, json, type.table, Sql.MD_INSERT, unique_name)
+        result.then(result => {
             const local_id = result.insertId
             const uuid = new UUID(UUID.get(shard_id, type_id, local_id))
             console.log("Inserted DB[" + shard_id + "] " + type.slug + " #" + local_id, "UUID [" + uuid.id + "]")
-        }
-        unique_name = unique_name || this.createNewUniqueName(type)
-        const result = this.baseFunction(shard_id, json, type.table, Sql.MD_INSERT, unique_name)
-        result.then(result => callBack(result, shard_id, type.id))
+        })
         return result
     }
 
     update(shard_id, unique_name, json, type, local_id) {
-        const callBack = (result) => {
+        const result = this.baseFunction(shard_id, unique_name, json, tb.name, Sql.MD_UPDATE, local_id)
+        result.then(result => {
             const affectedRows = result.affectedRows
             console.log("Updated " + affectedRows + " row(s)")
-        }
-        const result = this.baseFunction(shard_id, unique_name, json, tb.name, Sql.MD_UPDATE, local_id)
-        result.then(result => callBack(result))
+        })
         return result
     }
 
