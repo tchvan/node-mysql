@@ -5,7 +5,7 @@ const Config = require('../config')
 const Sql = require('./Sql')
 const BluePrint = require('./BluePrint')
 const Connector = require('./Connector')
-const Util = require('./UtilString')
+const Util = require('./Utilities')
 
 class Schema extends DbInteraction {
 
@@ -47,7 +47,7 @@ class Schema extends DbInteraction {
      */
     static install(config, models, links) {
         const max = Config.MAX_SHARD
-        const dbs = [...Array(max).keys()].map(k => Util.getDbName(k))
+        const dbs = [...Array(max).keys()].map(k => Util.Name.getDb(k))
         // console.log("DBS", dbs)
         dbs.map((db_name) => {
             const conn = new Connector(config)
@@ -89,7 +89,7 @@ class Schema extends DbInteraction {
         const blue_print = new BluePrint
         entity0 = entity0 || table0.substr(0, table0.length - 1)
         entity1 = entity1 || table1.substr(0, table1.length - 1)
-        const table_name = Util.getLinkName(entity0, entity1)
+        const table_name = Util.Name.getLink(entity0, entity1)
         const sql = blue_print.createRelationShip(table_name, entity0, entity1, this.conn)
         this.conn.query(sql, (err, result) => {
             if (err) throw err

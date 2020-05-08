@@ -37,8 +37,8 @@ class BluePrint {
      */
     createRelationShip(table_name, entity0, entity1, conn) {
         const { database } = conn.config
-        const e0 = entity0 + "_uuid"
-        const e1 = entity1 + "_uuid"
+        const e0 = entity0 + "_id"
+        const e1 = entity1 + "_id"
 
         const s0 = "CREATE TABLE IF NOT EXISTS `" + database + "`.`" + table_name + "`"
         const si = [
@@ -47,7 +47,7 @@ class BluePrint {
             "`" + e1 + "` BIGINT NOT NULL",
             "`value` LONGTEXT",
             "`modified` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
-            "INDEX(`" + e0 + "`, `" + e1 + "`, `key`)"
+            "UNIQUE (`" + e0 + "`,`key`, `" + e1 + "`)"
         ]
         const sn = "ENGINE = InnoDB;"
         const sql = s0 + "(\n\t" + si.join(",\n\t") + "\n) " + sn

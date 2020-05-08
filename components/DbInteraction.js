@@ -1,9 +1,7 @@
 const Connector = require('./Connector')
 
 class DbInteraction {
-    constructor(conn) {
-        this.conn = conn
-    }
+    constructor(conn) { this.conn = conn }
     /**
    * @param {Connector} connector
    */
@@ -16,7 +14,10 @@ class DbInteraction {
         return new Promise((resolve) => {
             setTimeout(() => {
                 this.conn.query(sql, (err, result) => {
-                    if (err) throw err
+                    if (err) {
+                        console.error("SQL:\n" + sql)
+                        throw err
+                    }
                     resolve(result)
                 })
             }, 0);

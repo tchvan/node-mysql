@@ -1,10 +1,13 @@
 'use strict';
 
+const testDB = require('./test_db')()
+
 const config = {
     host: '127.0.0.1',
     user: 'root',
     password: 'mysql'
 }
+
 
 // require('./test_db')(config)
 

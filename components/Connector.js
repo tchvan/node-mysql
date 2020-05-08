@@ -1,6 +1,6 @@
 'use strict'
 const mysql = require('mysql')
-const Util = require('./UtilString')
+const Util = require('./Utilities')
 
 class Connector {
 
@@ -32,7 +32,7 @@ class Connector {
     constructor(config, shardId = null) {
         if (config) {
             if (shardId) {
-                const db_name = Util.getDbName(shardId)
+                const db_name = Util.Name.getDb(shardId)
                 config.database = db_name
                 this._connect = mysql.createConnection(config)
                 this.connect(db_name)

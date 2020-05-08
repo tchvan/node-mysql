@@ -7,6 +7,8 @@ const BluePrint = require('./components/BluePrint')
 
 const DB = require('./components/DB')
 const Model = require('./components/Model')
+const Factory = require('./components/Factory')
+const Faker = require('./components/Faker')
 
 module.exports = {
     UUID,
@@ -15,5 +17,8 @@ module.exports = {
     BluePrint,
     DB,
     Model,
+
+    Factory,
+    Faker,
 }
 
