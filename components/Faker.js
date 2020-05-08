@@ -1,17 +1,16 @@
 'use strict'
 
 const FakerData = require('./static/faker')
+const Util = require('./Utilities')
 
 class Faker {
-    // static analyse() {
-    //     const sentences = FakerData.sentences
-    //     sentences.forEach(s => {
-    //         if (s.length < 10) console.log(s)
-    //     })
-    // }
     random(array) {
         const index = Math.round(Math.random() * array.length) % array.length
         return array[index]
+    }
+
+    number(digit = 5) {
+        return Util.String.fillZero(Math.round(Math.random() * Math.pow(10, digit)), digit)
     }
 
     name() {
@@ -25,7 +24,7 @@ class Faker {
     sentence() {
         let str = this.random(FakerData.sentences)
         str = str.substr(0, str.length - 1)
-        if(Math.random() < 0.3) str = '"' + str + '"'
+        if (Math.random() < 0.3) str = '"' + str + '"'
         return str
     }
 

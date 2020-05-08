@@ -2,10 +2,11 @@
 
 const Config = require('../../config')
 const md5 = require('md5')
+const String = require('./String')
 
 class Name {
     static getDb(shardId) {
-        return Config.DB_PREFIX + ("00000" + shardId).substr(-5)
+        return Config.DB_PREFIX + String.fillZero(shardId, 5)
     }
 
     static getLink(e0, e1) {
