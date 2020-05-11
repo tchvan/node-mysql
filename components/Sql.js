@@ -10,9 +10,9 @@ const JSON_COMPACT = (json) => {
             result[k] = Util.String.escStr(json[k])
         })
 
-        console.log()
-        console.log("After", result)
-        console.log()
+        // console.log()
+        // console.log("After", result)
+        // console.log()
         json = JSON.stringify(result)
     }
     return "JSON_COMPACT('" + json + "')"

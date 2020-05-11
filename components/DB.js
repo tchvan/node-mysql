@@ -22,7 +22,7 @@ class DB extends DbInteraction {
         const result = this.baseFunction(shard_id, json, type.table, Sql.MD_INSERT, unique_name)
         result.then(result => {
             const local_id = result.insertId
-            const uuid = new UUID(UUID.get(shard_id, type_id, local_id))
+            const uuid = new UUID(UUID.get(shard_id, type.id, local_id))
             console.log("Inserted DB[" + shard_id + "] " + type.slug + " #" + local_id, "UUID [" + uuid.id + "]")
         })
         return result

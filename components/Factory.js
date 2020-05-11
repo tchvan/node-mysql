@@ -15,7 +15,7 @@ class Factory extends DbInteraction {
         const user_name = json.user_name
         const uuid = json.uuid
 
-        const shard_id = (user_name) ? Util.String.toShard(user_name) : (new UUID(uuid)).shareId
+        const shard_id = (user_name) ? Util.Name.toShard(user_name) : (new UUID(uuid)).shareId
 
         const slug = Util.String.slug(name)
         const db = new DB(this.conn)

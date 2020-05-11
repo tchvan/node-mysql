@@ -7,11 +7,12 @@ class Model extends DbInteraction {
 
     constructor(name, conn, type) {
         super(conn)
-        // console.log(name, typeof name)
+        console.log(name, typeof name)
         if (typeof name === 'bigint') {
-            const uuid = new UUID(name)
-            this.id = uuid.localId
-            this.shardId = uuid.shareId
+            this.uuid = new UUID(name)
+            // const uuid = new UUID(name)
+            // this.id = uuid.localId
+            // this.shardId = uuid.shareId
         } else {
             this.name = name
             this.shardId = Util.String.toShard(name)
@@ -21,10 +22,24 @@ class Model extends DbInteraction {
         this.slug = type.slug
     }
 
+    checkType() {
+        if (this.uuid.typeId !== this.type.id) {
+            const content = {
+                code: 'type_miss_matched',
+                msg: "Type id doesn't match. Request '" + this.type.slug + "' [" + this.type.id + "] but given object of [" + this.uuid.typeId + "]"
+            }
+            return { result: false, content }
+        }
+        return { result: true }
+    }
+
     async loadFromDB() {
+        if (!this.checkType().result) {
+            return new Promise((res, rej) => rej(this.checkType().content))
+        }
         let sql = ""
         if (this.name) sql = Sql.MD_SELECT_BY_NAME(this.db_name, this.type.table, this.name)
-        else if (this.id) sql = Sql.MD_SELECT_BY_ID(this.db_name, this.type.table, this.id)
+        else if (this.uuid.localId) sql = Sql.MD_SELECT_BY_ID(this.db_name, this.type.table, this.uuid.localId)
         const result = await this.execute(sql)
         return result
     }
@@ -59,7 +74,7 @@ class Model extends DbInteraction {
 
     }
 
-    async link(insertId, type, key, value) {
+    async createRelationShip(insertId, type, key, value) {
         const e0 = { k: this.slug + '_id', v: this.id, }
         const e1 = { k: type.slug + '_id', v: insertId, }
         const tb_name = Util.Name.getLink(this.slug, type.slug)
