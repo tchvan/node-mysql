@@ -16,6 +16,10 @@ script:
 
 before_script:
   - sudo mysql -e 'create database testing;'
+  - sudo mysql -e 'create database testing1;'
+  - sudo mysql -e 'create database testing2;'
+  - sudo mysql -e 'create database testing3;'
+  - sudo mysql -e 'create database testing4;'
 
 # Send coverage data to Coveralls
 after_script: "cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
