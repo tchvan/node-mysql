@@ -10,7 +10,7 @@ class DbInteraction {
         return this
     }
 
-    execute(sql) {
+    static execute(sql) {
         return new Promise((resolve) => {
             setTimeout(() => {
                 this.conn.query(sql, (err, result) => {
