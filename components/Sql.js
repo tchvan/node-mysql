@@ -25,7 +25,7 @@ const DB_CREATE = (db_name) => "CREATE DATABASE IF NOT EXISTS " + db_name;
 
 const MD_SELECT_BY_ID = (db_name, tb_name, id) => {
     const table = db_name + '.' + tb_name
-    const si = ["SELECT * FROM " + table + " WHERE id=" + id]
+    const si = ["SELECT * FROM " + table + " WHERE id IN (" + id + ")"]
     const sql = si.join("\n")
     return sql
 }
@@ -80,7 +80,7 @@ const MD_UPDATE = (db_name, tb_name, json, local_id) => {
 }
 
 
-const MD_SELECT_META = (db_name, tb_name, e0, e1, key) => {
+const META_SELECT_VALUE = (db_name, tb_name, e0, e1, key) => {
     const table = db_name + '.' + tb_name
     const si = [
         "SELECT * FROM " + table + " WHERE ",
@@ -92,7 +92,18 @@ const MD_SELECT_META = (db_name, tb_name, e0, e1, key) => {
     return sql
 }
 
-const MD_LINK = (db_name, tb_name, e0, e1, key, value) => {
+const META_SELECT_BY_KEY = (db_name, tb_name, entity, key) => {
+    const table = db_name + '.' + tb_name
+    const si = [
+        "SELECT * FROM " + table + " WHERE ",
+        entity.k + "=" + entity.v + " AND ",
+        "`key` LIKE '" + key + "'"
+    ]
+    const sql = si.join("\n")
+    return sql
+}
+
+const META_CREATE_LINK = (db_name, tb_name, e0, e1, key, value) => {
     const table = db_name + '.' + tb_name
     const s0 = "INSERT INTO " + table + " (`" + e0.k + "`, `key`, `" + e1.k + "`, `value`) VALUES "
     const si = [
@@ -116,6 +127,7 @@ module.exports = {
     MD_INSERT,
     MD_UPDATE,
 
-    MD_SELECT_META,
-    MD_LINK,
+    META_SELECT_BY_KEY,
+    META_SELECT_VALUE,
+    META_CREATE_LINK,
 }

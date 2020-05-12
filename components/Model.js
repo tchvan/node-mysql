@@ -7,26 +7,24 @@ class Model extends DbInteraction {
 
     constructor(name, conn, type) {
         super(conn)
-        console.log(name, typeof name)
+        // console.log(name, typeof name)
         if (typeof name === 'bigint') {
             this.uuid = new UUID(name)
-            // const uuid = new UUID(name)
-            // this.id = uuid.localId
-            // this.shardId = uuid.shareId
+            this.db_name = Util.Name.getDb(this.uuid.shardId)
         } else {
             this.name = name
-            this.shardId = Util.String.toShard(name)
+            const shardId = Util.String.toShard(name)
+            this.db_name = Util.Name.getDb(shardId)
         }
-        this.db_name = Util.Name.getDb(this.shardId)
         this.type = type
         this.slug = type.slug
     }
 
     checkType() {
-        if (this.uuid.typeId !== this.type.id) {
+        if (this.uuid.typeId !== BigInt(this.type.id)) {
             const content = {
                 code: 'type_miss_matched',
-                msg: "Type id doesn't match. Request '" + this.type.slug + "' [" + this.type.id + "] but given object of [" + this.uuid.typeId + "]"
+                msg: "Type id doesn't match. Requesting '" + this.type.slug + "' [" + this.type.id + "] but given object of [" + this.uuid.typeId + "]"
             }
             return { result: false, content }
         }
@@ -51,19 +49,33 @@ class Model extends DbInteraction {
     hasOne(type_id) {
 
     }
-    hasMany(type_id) {
 
+    async hasMany(type) {
+        const entity = { k: this.slug + '_id', v: this.uuid.localId, }
+        const meta_tb_name = Util.Name.getLink(this.slug, type.slug)
+        const sql = Sql.META_SELECT_BY_KEY(this.db_name, meta_tb_name, entity, ">-hasMany->")
+        const entity_tb_name = type.table
+        const list = await this.execute(sql)
+
+        const array = list.map(l => l.post_id).join(",")
+        const sub_sql = Sql.MD_SELECT_BY_ID(this.db_name, entity_tb_name, array)
+        const result = await this.execute(sub_sql)
+        return result.map(obj => ({ ...obj, json: JSON.parse(obj.json) }))
     }
 
     async belongsTo(type) {
-        const e0 = { k: this.slug + '_id', v: this.id, }
-        const e1 = { k: type.slug + '_id', v: 1, }
-        // console.log(this.slug, type.slug)
-        const tb_name = Util.Name.getLink(this.slug, type.slug)
-        const sql = Sql.MD_SELECT_META(this.db_name, tb_name, e0, e1, "belongsTo")
-        const result = await this.execute(sql)
-        return result
+        const entity = { k: this.slug + '_id', v: this.uuid.localId, }
+        const meta_tb_name = Util.Name.getLink(type.slug, this.slug)
+        const sql = Sql.META_SELECT_BY_KEY(this.db_name, meta_tb_name, entity, ">-hasMany->")
+        const entity_tb_name = type.table
+        const list = await this.execute(sql)
+
+        const array = list.map(l => l.post_id).join(",")
+        const sub_sql = Sql.MD_SELECT_BY_ID(this.db_name, entity_tb_name, array)
+        const result = await this.execute(sub_sql)
+        return result.map(obj => ({ ...obj, json: JSON.parse(obj.json) }))
     }
+
     belongsToMany(type_id) {
 
     }
@@ -75,10 +87,10 @@ class Model extends DbInteraction {
     }
 
     async createRelationShip(insertId, type, key, value) {
-        const e0 = { k: this.slug + '_id', v: this.id, }
+        const e0 = { k: this.slug + '_id', v: this.uuid.localId, }
         const e1 = { k: type.slug + '_id', v: insertId, }
         const tb_name = Util.Name.getLink(this.slug, type.slug)
-        const sql = Sql.MD_LINK(this.db_name, tb_name, e0, e1, key, value)
+        const sql = Sql.META_CREATE_LINK(this.db_name, tb_name, e0, e1, key, value)
         const result = await this.execute(sql)
         return result
     }
