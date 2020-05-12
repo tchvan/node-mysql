@@ -1,17 +1,21 @@
 language: node_js
-# dist: precise
-# add_ons:
-#   mariadb: '10.0'
+dist: bionic
+
+services:
+  - mysql
+  - redis
+
 node_js:
   - stable
+
 install:
   - npm install
 
 script:
   - npm run cover
 
-# before_script:
-#   - sudo mysql -e 'create database testing;'
+before_script:
+  - sudo mysql -e 'create database testing;'
 
 # Send coverage data to Coveralls
 after_script: "cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
