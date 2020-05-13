@@ -13,7 +13,7 @@ install:
 
 script:
   # - npm run cover
-  - npm run test
+  - npm test
 
 # before_script:
 #   - sudo mysql -e 'create database testing;'
