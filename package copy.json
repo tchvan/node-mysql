@@ -4,7 +4,9 @@
   "description": "Utility to connect and query on distributed mysql grid.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec --watch"
+    "test": "mocha --reporter spec --watch",
+    "cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*",
+    "open-cover": "start coverage/lcov-report/index.html"
   },
   "repository": {
     "type": "git",
