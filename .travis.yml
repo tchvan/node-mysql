@@ -12,7 +12,8 @@ install:
   - npm install
 
 script:
-  - npm run cover
+  # - npm run cover
+  - npm run test
 
 # before_script:
 #   - sudo mysql -e 'create database testing;'
@@ -22,4 +23,4 @@ script:
 #   - sudo mysql -e 'create database testing4;'
 
 # Send coverage data to Coveralls
-after_script: "cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
+# after_script: "cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js"
