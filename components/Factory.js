@@ -18,6 +18,7 @@ class Factory extends DbInteraction {
         const shard_id = (user_name) ? Util.Name.toShard(user_name) : (new UUID(uuid)).shardId
 
         const slug = Util.String.slug(name)
+        // console.log("Factory conn", this.conn)
         const db = new DB(this.conn)
         const result = db.insert(shard_id, slug, json, type)
         return result

@@ -6,7 +6,7 @@ class Sql {
     static JSON_COMPACT(json) {
         if (typeof json === "object") {
             let result = {}
-            Object.keys(json).forEach(k  => {
+            Object.keys(json).forEach(k => {
                 result[k] = Util.String.escStr(json[k])
             })
             json = JSON.stringify(result)
@@ -17,8 +17,10 @@ class Sql {
     static DB_CREATE(db_name) {
         return "CREATE DATABASE IF NOT EXISTS " + db_name;
     }
+    static DB_EXISTS(db_name) {
+        return "SHOW DATABASES LIKE '" + db_name + "'"
+    }
     // const DB_DROP = (db_name)  "DROP DATABASE IF EXISTS " + db_name
-    // const DB_EXISTS = (db_name)  "SHOW DATABASES LIKE '" + db_name + "'"
     // const DB_USE = (db_name)  "USE '" + db_name + "'"
 
     static MD_SELECT_ALL(db_name, tb_name, where) {
@@ -26,13 +28,13 @@ class Sql {
         const sql = "SELECT * FROM " + table + " WHERE 1=1"
         return sql
     }
-   
+
     static MD_SELECT_FIRST(db_name, tb_name, where) {
         const table = db_name + '.' + tb_name
         const sql = "SELECT * FROM " + table + " WHERE 1=1 LIMIT 1"
         return sql
     }
-    
+
     static MD_SELECT_LAST(db_name, tb_name, where) {
         const table = db_name + '.' + tb_name
         const sql = "SELECT * FROM " + table + " WHERE 1=1 ORDER BY id DESC LIMIT 1 "
@@ -62,7 +64,7 @@ class Sql {
      */
     static MD_INSERT(db_name, tb_name, json, unique_name) {
         const table = db_name + '.' + tb_name
-        json = JSON_COMPACT(json)
+        json = this.JSON_COMPACT(json)
         const si = [
             "INSERT INTO " + table + "(`name`, `json`) VALUES ('" + Util.String.escStr(unique_name) + "', " + json + ")"
         ]

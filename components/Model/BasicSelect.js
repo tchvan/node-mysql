@@ -66,6 +66,11 @@ class BasicSelect extends DbInteraction {
 
         return rows.map(obj => ({ ...obj, json: JSON.parse(obj.json) }))[0]
     }
+
+    static async count(){
+        const all = await this.all()
+        return all.length
+    }
 }
 
 module.exports = BasicSelect

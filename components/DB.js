@@ -10,26 +10,32 @@ class DB extends DbInteraction {
         return "new-" + type.slug + "-" + Util.Name.toUniqueId(type.slug)
     }
 
-    async baseFunction(shard_id, json, tb_name, SqlBuilder, unique_id) {
-        const db_name = Util.Name.getDb(shard_id)
-        const sql = SqlBuilder(db_name, tb_name, json, unique_id)
-        const result = await this.execute(sql)
-        return result
-    }
+    // async baseFunction(shard_id, json, tb_name, SqlBuilder, unique_id) {
+    //     const db_name = Util.Name.getDb(shard_id)
+    //     const sql = SqlBuilder(db_name, tb_name, json, unique_id)
+    //     const result = await this.execute(sql)
+    //     return result
+    // }
 
-    insert(shard_id, unique_name, json, type) {
+    async insert(shard_id, unique_name, json, type) {
+        // console.log("My conn",this.conn)
         unique_name = unique_name || this.createNewUniqueName(type)
-        const result = this.baseFunction(shard_id, json, type.table, Sql.MD_INSERT, unique_name)
-        result.then(result => {
-            const local_id = result.insertId
-            const uuid = new UUID(UUID.get(shard_id, type.id, local_id))
-            console.log("Inserted DB[" + shard_id + "] " + type.slug + " #" + local_id, "UUID [" + uuid.id + "]")
-        })
+        // const result = this.baseFunction(shard_id, json, type.table, Sql.MD_INSERT, unique_name)
+        const db_name = Util.Name.getDb(shard_id)
+        const sql = Sql.MD_INSERT(db_name, type.table, json, unique_name)
+        const result = await this.execute(sql)
+
+        // const local_id = result.insertId
+        // const uuid = new UUID(UUID.get(shard_id, type.id, local_id))
+        // console.log("Inserted DB[" + shard_id + "] " + type.slug + " #" + local_id, "UUID [" + uuid.id + "]")
         return result
     }
 
-    update(shard_id, unique_name, json, type, local_id) {
-        const result = this.baseFunction(shard_id, unique_name, json, tb.name, Sql.MD_UPDATE, local_id)
+    async update(shard_id, unique_name, json, type, local_id) {
+        // const result = this.baseFunction(shard_id, unique_name, json, tb.name, Sql.MD_UPDATE, local_id)
+        const db_name = Util.Name.getDb(shard_id)
+        const sql = Sql.MD_UPDATE(db_name, type.table, json, unique_id)
+        const result = await this.execute(sql)
         result.then(result => {
             const affectedRows = result.affectedRows
             console.log("Updated " + affectedRows + " row(s)")
