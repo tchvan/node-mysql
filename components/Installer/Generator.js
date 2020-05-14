@@ -7,10 +7,11 @@ const DbInteraction = require('../DbInteraction')
 
 class Generator extends DbInteraction {
 
-    generateUsers(count) { 
+    async generateUsers(count=1) { 
         // console.log("Generator conn", this.conn)
         const f = (new Factory(this.conn))
-        return f.define(Type.User, (faker) => {
+        
+        return await f.define(Type.User, (faker) => {
             const email = faker.email()
             return {
                 user_name: email,

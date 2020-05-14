@@ -12,8 +12,8 @@ install:
   - npm install
 
 script:
-  # - npm run cover
-  - npm test
+  - npm run cover
+  # - npm test
 
 # before_script:
 #   - sudo mysql -e 'create database testing;'

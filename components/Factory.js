@@ -8,7 +8,7 @@ const UUID = require('./UUID')
 
 class Factory extends DbInteraction {
 
-    define(type, jsonCreator) {
+    async define(type, jsonCreator) {
         const json = jsonCreator(new Faker())
         const { name } = json
 
@@ -20,7 +20,7 @@ class Factory extends DbInteraction {
         const slug = Util.String.slug(name)
         // console.log("Factory conn", this.conn)
         const db = new DB(this.conn)
-        const result = db.insert(shard_id, slug, json, type)
+        const result = await db.insert(shard_id, slug, json, type)
         return result
     }
 
