@@ -1,41 +1,61 @@
 const expect = require('chai').expect;
 // const Util = require('../components/Utilities')
 const Config = require('../config')
-// const Conn = require('../components/Connector')
 // const { Installer, Generator, Models } = require('../components/Installer')
-// const { User, Post, Type } = Models
+const { User, Post, Type, Relationship } = require('./testModel')
 
-const Database = require('../components/Database/Database')
+const { Database, Table } = require('../components/DB')
+const Factory = require('../components/Factory')
+
+const testMeta = {
+    maxUser: 10,
+}
 
 module.exports = () => {
-    // const gen = new Generator(conn0)
-    // const maxUsers = 10
-    // User.connect(conn0)
-    // console.log("Generator", gen)
-    describe('#Database interaction', () => {
+    describe('1. Database interaction', () => {
         it('Should create all DBs', async () => {
             const rs = await Database.createDBAll()
             expect(rs.length).to.equal(Config.MAX_SHARD)
         })
-        it('Should Dis-connect All DBs', async () => {
+        it('Should disconnect All DBs', async () => {
             await Database.disconnectAll()
         })
-        it('Should Connect All DBs', async () => {
-            const rs = await Database.connectAll()
+        it('Should connect All DBs', async () => {
+            await Database.connectAll()
         })
-        it('Should Dis-connect All DBs', async () => {
-            await Database.disconnectAll()
+    })
+    describe('2. Table creation', () => {
+        Object.keys(Type).forEach(table => {
+            it('Should create Entity table ' + table, async () => {
+                const rs = await Table.createEntityTable(table)
+                expect(rs.length).to.equal(Config.MAX_SHARD)
+            })
         })
-        // it('Count created db', async () => {
-        //     let result = await Installer.countDB()
-        //     expect(result).to.equal(Config.MAX_SHARD)
-        // })
-        // it('Should insert ' + maxUsers + ' new users', async () => {
-        //     let result = await gen.generateUsers(maxUsers)
-        //     let count = await User.count()
-        //     expect(count).to.equal(maxUsers)
-        //     // console.log("10 new users", result)
-        // })
+        Relationship.map(pair=>{
+            // console.log(pair)
+            it('Should create Relationship table ' + pair, async () => {
+                const rs = await Table.createLinkTable(pair[0], pair[1])
+                expect(rs.length).to.equal(Config.MAX_SHARD)
+            })
+        })
 
     })
+    // describe('3. Data creation', () => {
+    //     it('Should Insert ' + testMeta.maxUser + " users", async () => {
+    //         return await Factory.define(Type.User, (faker) => {
+    //             const email = faker.email()
+    //             return {
+    //                 user_name: email,
+    //                 name: faker.name(),
+    //                 email,
+    //             }
+    //         })
+    //     })
+    // })
+    describe('n. Database close', () => {
+        it('Should disconnect All DBs', async () => {
+            await Database.disconnectAll()
+        })
+    })
+
 } 

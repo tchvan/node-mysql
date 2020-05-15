@@ -8,9 +8,9 @@ class BluePrint {
      * @param {String} table_name 
      * @param {Connector} conn 
      */
-    createEntity(table_name, conn) {
+    createEntity(database, table_name) {
         // console.log(connector.config)
-        const { database } = conn.config
+        // const { database } = conn.config
         const s0 = "CREATE TABLE IF NOT EXISTS `" + database + "`.`" + table_name + "` "
         const si = [
             "`id` INT NOT NULL AUTO_INCREMENT",
@@ -35,12 +35,11 @@ class BluePrint {
      * @param {String} entity1 
      * @param {Connector} conn 
      */
-    createRelationShip(table_name, entity0, entity1, conn) {
-        const { database } = conn.config
+    createRelationShip(db_name, table_name, entity0, entity1) {
         const e0 = entity0 + "_id"
         const e1 = entity1 + "_id"
 
-        const s0 = "CREATE TABLE IF NOT EXISTS `" + database + "`.`" + table_name + "`"
+        const s0 = "CREATE TABLE IF NOT EXISTS `" + db_name + "`.`" + table_name + "`"
         const si = [
             "`" + e0 + "` BIGINT NOT NULL",
             "`key` VARCHAR(255) NOT NULL",

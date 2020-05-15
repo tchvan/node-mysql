@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const Util = require('../components/Utilities')
+const Util = require('../../components/Utilities')
 
 module.exports = () => {
     describe('#Test JSON Escapse', () => {

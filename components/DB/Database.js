@@ -1,8 +1,7 @@
 'use strict'
 
 const mysql = require('mysql')
-const Sql = require('../Sql').Sql
-// const Config = require('../../config')
+const { Sql } = require('../Sql')
 const Util = require('../Utilities')
 
 class Database {
@@ -59,6 +58,7 @@ class Database {
                 // const config = { ...Database.config, database: db_name }
                 // Database.conns[key] = mysql.createConnection(config)
                 Database.conns[key] = Database.connect(db_name)
+                return new Promise(resolve => resolve(true))
             })
         )
     }
@@ -70,6 +70,20 @@ class Database {
                 return Database.disconnect(conn)
             })
         )
+    }
+
+    static async insert(shard_id, unique_name, json, type) {
+        // console.log("My conn",this.conn)
+        unique_name = unique_name || this.createNewUniqueName(type)
+        // const result = this.baseFunction(shard_id, json, type.table, Sql.MD_INSERT, unique_name)
+        const db_name = Util.Name.getDb(shard_id)
+        const sql = Sql.MD_INSERT(db_name, type.table, json, unique_name)
+        const result = await Database.query(sql)
+
+        // const local_id = result.insertId
+        // const uuid = new UUID(UUID.get(shard_id, type.id, local_id))
+        // console.log("Inserted DB[" + shard_id + "] " + type.slug + " #" + local_id, "UUID [" + uuid.id + "]")
+        return result
     }
 }
 

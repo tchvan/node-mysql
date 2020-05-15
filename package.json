@@ -26,13 +26,16 @@
     "chai": "^4.2.0",
     "coveralls": "^3.1.0",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^7.1.2"
+    "mocha": "^7.1.2",
+    "nyc": "^15.0.1"
   },
   "scripts": {
     "test0": "mocha -R spec",
-    "test": "mocha",
+    "test": "mocha -R spec",
     "test:watch": "npm t -- -w",
-    "cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*",
-    "cover-open": "start coverage/lcov-report/index.html"
+    "cover-istabul": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*",
+    "cover": "nyc --reporter=html --reporter=text mocha",
+    "cover-open": "start coverage/index.html",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   }
 }

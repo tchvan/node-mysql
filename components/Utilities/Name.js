@@ -39,5 +39,9 @@ class Name {
         const last3 = date.getMilliseconds()
         return first3 + "-" + dat3 + "-" + mid3 + "-" + last3
     }
+
+    static getEntity(entity, table) {
+        return entity || table.substr(0, table.length - 1)
+    }
 }
 module.exports = Name
