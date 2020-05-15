@@ -1,6 +1,6 @@
 'use strict'
 
-const Util = require('./Utilities')
+const Util = require('../Utilities')
 
 class Sql {
     static JSON_COMPACT(json) {
@@ -69,8 +69,6 @@ class Sql {
             "INSERT INTO " + table + "(`name`, `json`) VALUES ('" + Util.String.escStr(unique_name) + "', " + json + ")"
         ]
         const sql = si.join(",\n\t")
-        // console.log(sql)
-
         return sql
     }
 

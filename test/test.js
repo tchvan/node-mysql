@@ -1,6 +1,8 @@
 'use strict';
 
-const Config = require('../config')
+const Util = require('../components/Utilities')
+
+console.warn("========= " + Util.DateTime.getCurrentDateTime() + " =========")
 
 // require('./test_Util_String')()
-require('./test_DB_Creator')(Config.dbconf)
+require('./test_DB_Creator')()

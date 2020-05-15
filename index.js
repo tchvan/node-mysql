@@ -4,7 +4,7 @@ const UUID = require('./components/UUID')
 const Connector = require('./components/Connector')
 const Schema = require('./components/Schema')
 const BluePrint = require('./components/BluePrint')
-const DB = require('./components/DB')
+// const DB = require('./components/DB')
 // const DbInteraction = require('./components/DbInteraction')
 
 const Model = require('./components/Model')
@@ -19,7 +19,7 @@ module.exports = {
     Connector,
     Schema,
     BluePrint,
-    DB,
+    // DB,
 
     Model,
     RelationShip,

@@ -5,7 +5,10 @@ const Config = {
     dbconf: {
         host: '127.0.0.1',
         user: 'root',
-        password: process.env.TRAVIS ? '' : 'mysql'
+        password: process.env.TRAVIS ? '' : 'mysql11'
+    },
+    DEBUG: {
+        Database: false,
     }
 }
 

@@ -6,9 +6,9 @@ class UUID {
     constructor(id) {
         this.id = BigInt(id)
         // this.shardId = (this.id >> 46n) & 4095n
-        this.shardId = (this.id >> 46n) & BigInt(Config.MAX_SHARD - 1)
-        this.typeId = (this.id >> 36n) & 0x3FFn
-        this.localId = this.id & 0xFFFFFFFFFn
+        this.shardId = (this.id >> BigInt(46)) & BigInt(Config.MAX_SHARD - 1)
+        this.typeId = (this.id >> BigInt(36)) & BigInt(0x3FF)
+        this.localId = this.id & BigInt(0xFFFFFFFFF)
     }
 
     /**
@@ -17,7 +17,7 @@ class UUID {
      * @param {BigInt} typeId 
      * @param {BigInt} localId 
      */
-    static get(shardId, typeId, localId) { return (BigInt(shardId) << 46n) | (BigInt(typeId) << 36n) | BigInt(localId) }
+    static get(shardId, typeId, localId) { return (BigInt(shardId) << BigInt(46)) | (BigInt(typeId) << BigInt(36)) | BigInt(localId) }
     toText() {
         return {
             shardId: this.shardId + "",

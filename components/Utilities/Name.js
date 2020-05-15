@@ -5,6 +5,15 @@ const md5 = require('md5')
 const String = require('./String')
 
 class Name {
+
+    static getAllDbKeys() {
+        return [...Array(Config.MAX_SHARD).keys()]
+    }
+
+    static getAllDbs() {
+        return Name.getAllDbKeys().map(k => Name.getDb(k))
+    }
+
     static getDb(shardId) {
         return Config.DB_PREFIX + String.fillZero(shardId, 5)
     }

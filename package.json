@@ -25,13 +25,14 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "coveralls": "^3.1.0",
-    "istanbul": "^0.4.5",
+    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^7.1.2"
   },
   "scripts": {
-    "test": "mocha --reporter spec",
+    "test0": "mocha -R spec",
+    "test": "mocha",
     "test:watch": "npm t -- -w",
     "cover": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*",
-    "open-cover": "start coverage/lcov-report/index.html"
+    "cover-open": "start coverage/lcov-report/index.html"
   }
 }
