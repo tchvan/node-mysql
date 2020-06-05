@@ -30,9 +30,8 @@
     "nyc": "^15.0.1"
   },
   "scripts": {
-    "test0": "mocha -R spec",
-    "test": "mocha -R spec",
-    "test:watch": "npm t -- -w",
+    "test-current": "mocha -w",
+    "test": "mocha --timeout 10000 -R spec",
     "cover-istabul": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*",
     "cover": "nyc --reporter=html --reporter=text mocha",
     "cover-open": "start coverage/index.html",

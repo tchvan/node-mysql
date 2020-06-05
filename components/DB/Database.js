@@ -28,10 +28,10 @@ class Database {
     static disconnect(conn) {
         conn = conn || Database.conn
         return new Promise((resolve, reject) => {
-            if (!conn) return resolve(true) //<<This connection has not been connected before
+            if (!conn) return resolve("true1") //<<This connection has not been connected before
             conn.end(err => {
                 if (err) return reject({ ...err, Error: null })
-                return resolve(true)
+                return resolve("true2")
             })
         })
     }
@@ -64,27 +64,17 @@ class Database {
     }
 
     static disconnectAll() {
-        return Promise.all(
+        const result = Promise.all(
             Util.Name.getAllDbKeys().map(key => {
                 const conn = Database.conns[key]
                 return Database.disconnect(conn)
             })
         )
-    }
-
-    static async insert(shard_id, unique_name, json, type) {
-        // console.log("My conn",this.conn)
-        unique_name = unique_name || this.createNewUniqueName(type)
-        // const result = this.baseFunction(shard_id, json, type.table, Sql.MD_INSERT, unique_name)
-        const db_name = Util.Name.getDb(shard_id)
-        const sql = Sql.MD_INSERT(db_name, type.table, json, unique_name)
-        const result = await Database.query(sql)
-
-        // const local_id = result.insertId
-        // const uuid = new UUID(UUID.get(shard_id, type.id, local_id))
-        // console.log("Inserted DB[" + shard_id + "] " + type.slug + " #" + local_id, "UUID [" + uuid.id + "]")
+        // console.log(result)
         return result
     }
+
+
 }
 
 Database.conns = []

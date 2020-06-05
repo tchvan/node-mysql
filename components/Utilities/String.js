@@ -39,7 +39,7 @@ class UtilString {
         return title
     }
 
-    static fillZero(number, maxCount) {
+    static fillZero(number, maxCount = 3) {
         return ("0000000000" + number).substr(-maxCount)
     }
 }

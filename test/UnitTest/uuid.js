@@ -7,7 +7,7 @@ module.exports = () => {
     describe('#Test UUID', () => {
         const num = "241294492511762325"
         const uuid = new UUID(num)
-        console.log(uuid.shardId)
+        // console.log(uuid.shardId)
         it('should get correct shareId', () => {
             expect(uuid.shardId + "").to.equal((3429 % Config.MAX_SHARD) + '')
         })

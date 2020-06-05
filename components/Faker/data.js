@@ -2025,6 +2025,7 @@ const names = [
     "Arabella Bailey",
     "Cecelia Cooley",
 ]
+
 const emails = [
     "aardo@gmail.com",
     "aaribaud@mac.com",

@@ -3,11 +3,12 @@
 const Config = require('../../config')
 const md5 = require('md5')
 const String = require('./String')
+const Arr = require('./Arr')
 
 class Name {
 
     static getAllDbKeys() {
-        return [...Array(Config.MAX_SHARD).keys()]
+        return Arr.create1toN(Config.MAX_SHARD)
     }
 
     static getAllDbs() {
@@ -28,8 +29,8 @@ class Name {
         return shard_id % Config.MAX_SHARD
     }
 
-    static toUniqueId(string_to_hash) {
-        const hash = md5(string_to_hash)
+    static toUniqueId() {
+        const hash = md5(Math.random() * 10000000)
         const first3 = parseInt(hash.substr(-3), 16) % 1000
 
         const date = new Date()
@@ -37,7 +38,7 @@ class Name {
         const dat3 = Math.round(seconds / 86400) % 1000
         const mid3 = Math.round(seconds) % 1000
         const last3 = date.getMilliseconds()
-        return first3 + "-" + dat3 + "-" + mid3 + "-" + last3
+        return String.fillZero(first3) + "-" + String.fillZero(dat3) + "-" + String.fillZero(mid3) + "-" + String.fillZero(last3)
     }
 
     static getEntity(entity, table) {
