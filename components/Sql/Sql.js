@@ -11,7 +11,8 @@ class Sql {
             })
             json = JSON.stringify(result)
         }
-        return "JSON_COMPACT('" + json + "')"
+        return "'" + json + "'" //<<Tranvis Mysql 5.7.29 doesn't know compact
+        // return "JSON_COMPACT('" + json + "')"
     }
 
     static DB_CREATE(db_name) {
