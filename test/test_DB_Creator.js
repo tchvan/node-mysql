@@ -22,10 +22,10 @@ module.exports = () => {
             const rs = await Database.createDBAll()
             expect(rs.length).to.equal(Config.MAX_SHARD)
         })
-        // it('Should disconnect All DBs', async () => {
-        //     const dis = await Database.disconnectAll()
-        //     console.log(dis)
-        // })
+        it('Should disconnect All DBs', async () => {
+            const dis = await Database.disconnectAll()
+            console.log(dis)
+        })
         it('Should connect All DBs', async () => {
             await Database.connectAll()
         })
