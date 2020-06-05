@@ -14,6 +14,8 @@ const testMeta = {
     maxPostPerUser: 10
 }
 
+const sum = (a, c) => a + c
+
 module.exports = () => {
     describe('1. Database interaction', () => {
         // it('Should create all ' + Config.MAX_SHARD + ' DBs', async () => {
@@ -48,21 +50,15 @@ module.exports = () => {
     })
     describe('4. Data creation', () => {
         const a = Util.Arr.create1toN(testMeta.maxUser)
-        // it('Should insert ' + testMeta.maxUser + " users", async () => {
-        //     const x = await Promise.all(a.map(key => Generator.createUser(key)))
-        //     const total = x.reduce((a, c) => a + c)
-        //     expect(total).to.equals(testMeta.maxUser)
-        // })
+        it('Should insert ' + testMeta.maxUser + " users", async () => {
+            const x = await Promise.all(a.map(key => Generator.createUser(key)))
+            expect(x.reduce(sum)).to.equals(testMeta.maxUser)
+        })
 
-        it('Should insert ' + testMeta.maxPostPerUser + " posts per User by Owner_UUID", async () => {
-            const b = Util.Arr.create1toN(testMeta.maxPostPerUser)
-            const totalPosts = await Promise.all(a.map(async (uid) => {
-                const x = await Promise.all(b.map(pid => Generator.createPost(uid, pid)))
-                const postsEachUser = x.reduce((a, c) => a + c)
-                return new Promise(resolve => resolve(postsEachUser))
-            }))
-            const total = totalPosts.reduce((a, c) => a + c)
-            expect(total).to.equals(testMeta.maxUser * testMeta.maxPostPerUser)
+        const totalCreatedPosts = testMeta.maxUser * testMeta.maxPostPerUser
+        it('Should insert ' + totalCreatedPosts + " posts (" + testMeta.maxPostPerUser + "/user) by Owner_UUID", async () => {
+            const x = await Promise.all(a.map(uid => Generator.createNPosts(testMeta.maxPostPerUser, uid)))
+            expect(x.reduce(sum)).to.equals(totalCreatedPosts)
         })
     })
     describe('n. Database close', () => {
@@ -70,4 +66,4 @@ module.exports = () => {
             await Database.disconnectAll()
         })
     })
-}  
+}

@@ -31,6 +31,13 @@ class Generator {
         })
         return new Promise(resolve => resolve(rs.affectedRows))
     }
+
+    static async createNPosts(n, uid) {
+        const b = Util.Arr.create1toN(n)
+        const x = await Promise.all(b.map(pid => Generator.createPost(uid, pid)))
+        const postsEachUser = x.reduce((a, c) => a + c)
+        return new Promise(resolve => resolve(postsEachUser))
+    }
 }
 
 module.exports = Generator
