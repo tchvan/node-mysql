@@ -1,5 +1,6 @@
 'use strict'
 
+const md5 = require('md5')
 const FakerData = require('./data')
 const Util = require('../Utilities')
 
@@ -21,7 +22,8 @@ class Faker {
 
     email(id) {
         // console.log("Email", id ? id : "random")
-        return Util.String.fillZero(id, 5) + "@gmail.com"
+        const dateTime = md5(Util.DateTime.getCurrentDateTime()).substr(0, 10) + "_"
+        return dateTime + Util.String.fillZero(id, 4) + "@gmail.com"
         // return (id !== null) ? FakerData.emails[id] : this.random(FakerData.emails)
     }
 

@@ -23,8 +23,7 @@ module.exports = () => {
             expect(rs.length).to.equal(Config.MAX_SHARD)
         })
         it('Should disconnect All DBs', async () => {
-            const dis = await Database.disconnectAll()
-            console.log(dis)
+            await Database.disconnectAll()
         })
         it('Should connect All DBs', async () => {
             await Database.connectAll()
@@ -40,7 +39,6 @@ module.exports = () => {
             })
         })
         Relationship.map(pair => {
-            // console.log(pair)
             it('Should create Relationship table ' + pair, async () => {
                 const rs = await Table.createLinkTable(pair[0], pair[1])
                 expect(rs.length).to.equal(Config.MAX_SHARD)
