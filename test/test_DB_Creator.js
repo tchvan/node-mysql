@@ -18,10 +18,10 @@ const sum = (a, c) => a + c
 
 module.exports = () => {
     describe('1. Database interaction', () => {
-        // it('Should create all ' + Config.MAX_SHARD + ' DBs', async () => {
-        //     const rs = await Database.createDBAll()
-        //     expect(rs.length).to.equal(Config.MAX_SHARD)
-        // })
+        it('Should create all ' + Config.MAX_SHARD + ' DBs', async () => {
+            const rs = await Database.createDBAll()
+            expect(rs.length).to.equal(Config.MAX_SHARD)
+        })
         // it('Should disconnect All DBs', async () => {
         //     const dis = await Database.disconnectAll()
         //     console.log(dis)
